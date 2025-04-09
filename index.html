@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>代幣優惠計算器</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #f9f9f9; }
+    h1 { color: #333; }
+    label { display: block; margin-top: 1rem; }
+    input { padding: 0.5rem; width: 100%; max-width: 300px; }
+    button { margin-top: 1.5rem; padding: 0.5rem 1rem; background: #007bff; color: white; border: none; cursor: pointer; border-radius: 6px; }
+    .result { margin-top: 2rem; padding: 1rem; background: #e9f5ff; border-radius: 8px; max-width: 400px; }
+  </style>
+</head>
+<body>
+  <h1>🎯 代幣優惠計算器</h1>
+
+  <label>代幣單價（元）
+    <input type="number" id="tokenPrice" step="0.1" value="2.5">
+  </label>
+
+  <label>實際付款金額（元）
+    <input type="number" id="payAmount" value="600">
+  </label>
+
+  <label>贈送代幣價值（元）
+    <input type="number" id="bonusAmount" value="150">
+  </label>
+
+  <button onclick="calculate()">計算</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function calculate() {
+      const price = parseFloat(document.getElementById('tokenPrice').value);
+      const pay = parseFloat(document.getElementById('payAmount').value);
+      const bonus = parseFloat(document.getElementById('bonusAmount').value);
+
+      if (price <= 0 || pay <= 0) {
+        document.getElementById('result').innerHTML = '請輸入有效的數值。';
+        return;
+      }
+
+      const paidTokens = pay / price;
+      const bonusTokens = bonus / price;
+      const totalTokens = paidTokens + bonusTokens;
+      const costPerToken = pay / totalTokens;
+
+      document.getElementById('result').innerHTML = `
+        <strong>計算結果：</strong><br>
+        購得代幣數量：${paidTokens.toFixed(2)} 枚<br>
+        贈送代幣數量：${bonusTokens.toFixed(2)} 枚<br>
+        總共獲得：${totalTokens.toFixed(2)} 枚代幣<br>
+        <strong>每枚代幣實際成本：約 ${costPerToken.toFixed(2)} 元</strong>
+      `;
+    }
+  </script>
+</body>
+</html>
